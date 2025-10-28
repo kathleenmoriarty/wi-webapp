@@ -77,7 +77,7 @@ export const wisSlice = createSlice({
   }
 });
 
-export const selectWorkInstructions = (state) => state.workInstructions;
+export const selectWorkInstructions = (state) => state.workInstructions.list;
 export const selectLoading = (state) => state.workInstructions.loading;
 export const selectError = (state) => state.workInstructions.error;
 export const selectPublishedWIs = (state) => state.workInstructions.list.filter((wi) => wi.status === "Published");
