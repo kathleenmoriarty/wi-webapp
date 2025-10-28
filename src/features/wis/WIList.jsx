@@ -1,0 +1,34 @@
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteWI, selectWorkInstructions } from "./wisSlice";
+
+const WIList = () => {
+
+    const dispatch = useDispatch();
+    const workInstructions = useSelector(selectWorkInstructions);
+
+    return (
+        <div className="wi-list">
+            {workInstructions.map((wi) => (
+                    <div key={wi.id}>
+                        <p>{wi.title} | {wi.product} | {wi.revision} | {wi.status}</p>
+                        <button onClick={() => {
+                            if(window.confirm("Are you sure you want to delete this WI?")) {
+                                dispatch(deleteWI({ id: wi.id }))
+                            }
+                        }}>Remove</button>
+                    </div>
+                )
+            )}
+            
+        </div>
+    );
+};
+
+export default WIList;
+
+
+//add owner property when it is admin view
+//add success/error feedback
+//add search term function based on info from searchbar/searchterm state
+//filter based on published/draft etc
