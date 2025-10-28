@@ -1,10 +1,13 @@
-import React, {useCallback, useState} from "react";
-import { useDispatch } from "react-redux";
-import { saveWIDraft, publishWI } from "./wisSlice";
+import React, {useCallback, useState, useEffect} from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { saveDraftAsync, publishWIAsync, selectLoading, selectError } from "./wisSlice";
 
 const WIUploadForm = () => {
 
     const dispatch = useDispatch();
+    const loading = useSelector(selectLoading);
+    const error = useSelector(selectError);
+    const [success, setSuccess] = useState(false);
 
     const initialState = {
         title: "",
@@ -14,9 +17,7 @@ const WIUploadForm = () => {
         file: null
     };
 
-    const [status, setStatus] = useState("idle");
     const [formData, setFormData] = useState(initialState);
-
 
     const handleChange = useCallback((e) => {
         const { name, value, files } = e.target;
@@ -26,31 +27,37 @@ const WIUploadForm = () => {
         }))
     }, []);
 
-    const handleSubmit = async (type) => {
-        setStatus("loading");
+    const handleSubmit = useCallback(
+        async (type) => {
+        
+            const payload = {
+                ...formData,
+                id: type === "draft" ? Date.now() : crypto.randomUUID()
+            };
 
-        try {
-            await new Promise ((resolve) => setTimeout(resolve, 2000));
-            const payload = 
-                type === "draft"
-                    ? {...formData, id: Date.now()}
-                    : {...formData, id: crypto.randomUUID()};
-            
-                    console.log(`${type === "draft" ? "Draft saved" : "Form Published"}:`, payload)
-            
-            type === "draft"
-                ? dispatch(saveWIDraft(payload))
-                : dispatch(publishWI(payload));
+            try {
+                if(type === "draft") {
+                    await dispatch(saveDraftAsync(payload)).unwrap();
+                } else {
+                    await dispatch(publishWIAsync(payload)).unwrap();
+                }
 
-            setStatus("success");
-            setFormData(initialState)
-        } catch (err) {
-            console.error(err);
-            setStatus("error");
-        } finally {
-            setTimeout(() => setStatus("idle"), 2000);
+                setFormData(initialState);
+                setSuccess(true);
+            } catch (err) {
+                console.error("Error saving:", err);
+                setSuccess(false);
+            }
+        },
+        [dispatch, formData]
+    );
+
+    useEffect(() => {
+        if (success) {
+            const timer = setTimeout(() => setSuccess(false), 3000); // hide after 3 seconds
+            return () => clearTimeout(timer); // cleanup if component unmounts
         }
-    };
+    }, [success]);    
 
     return (
         <div className="upload-form">
@@ -107,15 +114,15 @@ const WIUploadForm = () => {
                 />
 
                 <div className="button-group">
-                    <button type="button" onClick={() => handleSubmit("draft")} disabled={status === "loading"}>
+                    <button type="button" onClick={() => handleSubmit("draft")} disabled={loading}>
                         Save Draft
                     </button>
-                    <button type="submit" disabled={status === "loading"}>Submit</button>
+                    <button type="submit" disabled={loading}>Submit</button>
                 </div>
 
-                {status === "loading" && <p>Loading...</p>}
-                {status === "success" && <p>Success!</p>}
-                {status === "error" && <p>Error saving form</p>}
+                {loading && <p>Loading...</p>}
+                {success && !loading && <p>Success!</p>}
+                {error && <p>Error saving form: {error}</p>}
 
             </form>
         </div>
