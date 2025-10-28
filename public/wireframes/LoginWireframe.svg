@@ -1,0 +1,11 @@
+<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="400" fill="#f5f5f5"/>
+  <text x="200" y="50" font-size="24" text-anchor="middle">Company Logo</text>
+  <rect x="50" y="100" width="300" height="40" fill="#fff" stroke="#ccc"/>
+  <text x="55" y="125" font-size="12" fill="#999">Email</text>
+  <rect x="50" y="160" width="300" height="40" fill="#fff" stroke="#ccc"/>
+  <text x="55" y="185" font-size="12" fill="#999">Password</text>
+  <rect x="50" y="220" width="300" height="40" fill="#007bff"/>
+  <text x="200" y="247" font-size="14" text-anchor="middle" fill="#fff">Login</text>
+  <text x="200" y="280" font-size="12" text-anchor="middle" fill="#555">Forgot password?</text>
+</svg>
