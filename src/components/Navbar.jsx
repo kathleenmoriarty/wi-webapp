@@ -18,25 +18,28 @@ const Navbar = () => {
             case "Editor":
                 return [
                     {to: "/dashboard", label: "Dashboard"},
-                    {to: "wis", label: "Work Instructions"},
+                    {to: "/wis", label: "Work Instructions"},
                     {to: "/upload", label: "Upload New"}
                 ];
             default:
                 return [
                     {to: "/dashboard", label: "Dashboard"},
-                    {to: "wis", label: "Work Instructions"}
+                    {to: "/wis", label: "Work Instructions"}
                 ]
         }
     }
 
-    const links = user ? getLinksByRole(user.role) : [];
+    if(!user) return null;
+
+    const basePath = `/${user.role.toLowerCase()}`;
+    const links = getLinksByRole(user.role);
 
     return (
         <nav>
             {links.map((link) => (
                 <NavLink
                     key={link.to}
-                    to={link.to}
+                    to={`${basePath}/${link.to}`}
                     className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}
                 >
                     {link.label}
