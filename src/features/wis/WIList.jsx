@@ -2,10 +2,12 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteWI, selectWorkInstructions } from "./wisSlice";
 import {selectSearchTerm, selectSearchType} from "../search/searchSlice"
+import { useNavigate } from "react-router-dom";
 
 const WIList = () => {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const workInstructions = useSelector(selectWorkInstructions);
     const searchTerm = useSelector(selectSearchTerm);
     const searchType = useSelector(selectSearchType);
@@ -24,6 +26,7 @@ const WIList = () => {
             {filteredList.map((wi) => (
                     <div key={wi.id}>
                         <p>{wi.title} | {wi.product} | {wi.revision} | {wi.status}</p>
+                        <button onClick={() => navigate(`/view/${wi.id}`)}>View</button>
                         <button onClick={() => {
                             if(window.confirm("Are you sure you want to delete this WI?")) {
                                 dispatch(deleteWI({ id: wi.id }))
