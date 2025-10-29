@@ -25,7 +25,7 @@ const Searchbar = () => {
             </select>
             <input 
                 type="text" 
-                placeholder="Search by title/product..." 
+                placeholder="Search..." 
                 value={searchTerm}
                 onChange={handleTermChange}
             />
