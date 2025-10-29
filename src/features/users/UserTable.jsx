@@ -1,11 +1,21 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser, selectUsers } from "./usersSlice";
+import { selectSearchTerm, selectSearchType } from "../search/searchSlice";
 
 const UserTable = () => {
 
     const dispatch = useDispatch();
     const users = useSelector(selectUsers);
+    const searchTerm = useSelector(selectSearchTerm);
+    const searchType = useSelector(selectSearchType);
+
+    const filteredUsers = searchType === "users"
+        ? users.filter((user) =>
+            user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            user.email.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+        : users;
     
     const addUserHandler = () => {
         const mockNewUser = {
@@ -27,11 +37,11 @@ const UserTable = () => {
         <div className="user-table">
             <h2>User Management</h2>
 
-            {users.length === 0 ? (
+            {filteredUsers.length === 0 ? (
                 <p>No users found.</p>
             ) : (
                 <ul>
-                    {users.map((user) => (
+                    {filteredUsers.map((user) => (
                         <li className="user" key={user.id}>
                             <p>
                                 {user.name} | {user.email} | {user.role} | {user.status} 

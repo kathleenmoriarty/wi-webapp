@@ -1,15 +1,25 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteWI, selectWorkInstructions } from "./wisSlice";
+import {selectSearchTerm, selectSearchType} from "../search/searchSlice"
 
 const WIList = () => {
 
     const dispatch = useDispatch();
     const workInstructions = useSelector(selectWorkInstructions);
+    const searchTerm = useSelector(selectSearchTerm);
+    const searchType = useSelector(selectSearchType);
+
+    const filteredList = searchType === "wis"
+        ? workInstructions.filter((wi) =>
+            wi.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            wi.product.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+        : workInstructions;
 
     return (
         <div className="wi-list">
-            {workInstructions.map((wi) => (
+            {filteredList.map((wi) => (
                     <div key={wi.id}>
                         <p>{wi.title} | {wi.product} | {wi.revision} | {wi.status}</p>
                         <button onClick={() => {
