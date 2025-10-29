@@ -1,20 +1,16 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import api from '../../api/mockApi';
 
 // Mock login API call
 export const loginAsync = createAsyncThunk(
   'user/loginAsync',
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // simulate API delay
+      const response = await api.post('/login', { email, password });
+      return response.data;
 
-      // Mock authentication logic
-      if (email === 'admin@example.com' && password === 'Password123*') {
-        return { id: 1, name: 'Admin User', email };
-      } else {
-        throw new Error('Invalid email or password');
-      }
     } catch (err) {
-      return rejectWithValue(err.message);
+      return rejectWithValue(err.response?.data?.message || err.message);
     }
   }
 );
