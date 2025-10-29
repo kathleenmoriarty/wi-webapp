@@ -30,7 +30,9 @@ const UserTable = () => {
     };
     
     const removeUserHandler = (id) => {
-        dispatch(removeUser({ id }));
+        if (window.confirm("Are you sure you want to remove this user?")) {
+            dispatch(removeUser({ id }));
+        }
     };
     
     return (
@@ -58,3 +60,5 @@ const UserTable = () => {
 };
 
 export default UserTable;
+
+//addUserHandler - create small pop up form to add new user
