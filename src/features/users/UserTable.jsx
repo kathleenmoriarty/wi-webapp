@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser, selectUsers } from "./usersSlice";
 import { selectSearchTerm, selectSearchType } from "../search/searchSlice";
+import Searchbar from "../search/Searchbar";
 
 const UserTable = () => {
 
@@ -38,6 +39,8 @@ const UserTable = () => {
     return (
         <div className="user-table">
             <h2>User Management</h2>
+
+            <Searchbar />
 
             {filteredUsers.length === 0 ? (
                 <p>No users found.</p>
