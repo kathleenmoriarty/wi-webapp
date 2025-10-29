@@ -19,6 +19,8 @@ const WIList = () => {
 
     return (
         <div className="wi-list">
+            {filteredList.length === 0 && <p>No Work Instructions found.</p>}
+
             {filteredList.map((wi) => (
                     <div key={wi.id}>
                         <p>{wi.title} | {wi.product} | {wi.revision} | {wi.status}</p>
