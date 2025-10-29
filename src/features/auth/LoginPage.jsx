@@ -1,25 +1,32 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginAsync, selectAuthError, selectAuthLoading } from "./authSlice";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const loading = useSelector(selectAuthLoading);
     const error = useSelector(selectAuthError);
 
     const [email, setEmail ] = useState("");
     const [password, setPassword] = useState("");
     
-    const loginHandler = (e) => {
+    const loginHandler = async (e) => {
         e.preventDefault();
-        dispatch(loginAsync({ email, password }));
+        const result = await dispatch(loginAsync({ email, password }));
+        
+        if(loginAsync.fulfilled.match(result)) {
+            const role = result.payload.role;
+            navigate(`/${role.toLowerCase()}`);
+        }
     };
     
     return (
         <div className="login-page">
             <h1>Company Logo</h1>
-            <form>
+            <form onSubmit={loginHandler}>
                 <label htmlFor="email">Email:</label>
                 <input 
                     type="email" 
@@ -44,13 +51,12 @@ const LoginPage = () => {
 
                 <button 
                     type="submit" 
-                    onClick={loginHandler}
                     disabled={loading}
                 >
-                    Log In
+                    {loading ? "Logging in..." : "Log In"}
                 </button>
 
-                {error && <p>{error}</p>}
+                {error && <p className="error">{error}</p>}
             </form>
             <p><a href="#">Forgot password?</a></p>
         </div>
