@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addUser, removeUser, selectUsers } from "./usersSlice";
+import { addUserAsync, removeUserAsync, fetchUsers, selectUsers, selectUsersLoading, selectUsersError } from "./usersSlice";
 import { selectSearchTerm, selectSearchType } from "../search/searchSlice";
 import Searchbar from "../search/Searchbar";
 
@@ -8,8 +8,14 @@ const UserTable = () => {
 
     const dispatch = useDispatch();
     const users = useSelector(selectUsers);
+    const loading = useSelector(selectUsersLoading);
+    const error = useSelector(selectUsersError);
     const searchTerm = useSelector(selectSearchTerm);
     const searchType = useSelector(selectSearchType);
+
+    useEffect(() => {
+        dispatch(fetchUsers());
+    }, [dispatch]);
 
     const filteredUsers = searchType === "users"
         ? users.filter((user) =>
@@ -20,21 +26,24 @@ const UserTable = () => {
     
     const addUserHandler = () => {
         const mockNewUser = {
-            id: Date.now(),
+            id: crypto.randomUUID(),
             name: "New User",
             email: "user@example.com",
             role: "Viewer",
             status: "Active",
         };
         
-        dispatch(addUser(mockNewUser));
+        dispatch(addUserAsync(mockNewUser));
     };
     
     const removeUserHandler = (id) => {
         if (window.confirm("Are you sure you want to remove this user?")) {
-            dispatch(removeUser({ id }));
+            dispatch(removeUserAsync(id));
         }
     };
+
+    if(loading) return <p>Loading users...</p>;
+    if(error) return <p>Error: {error}</p>
     
     return (
         <div className="user-table">
@@ -57,7 +66,7 @@ const UserTable = () => {
                 </ul>
             )}
             
-            <button onClick={addUserHandler}>Add User</button>
+            <button onClick={addUserHandler} disabled={loading}>Add User</button>
         </div>
     );
 };
