@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteWI, selectWorkInstructions } from "./wisSlice";
 import {selectSearchTerm, selectSearchType} from "../search/searchSlice"
 import { useNavigate } from "react-router-dom";
+import Searchbar from "../search/Searchbar";
 
 const WIList = () => {
 
@@ -21,6 +22,10 @@ const WIList = () => {
 
     return (
         <div className="wi-list">
+            <h2>Work Instructions List</h2>
+
+            <Searchbar />
+            
             {filteredList.length === 0 && <p>No Work Instructions found.</p>}
 
             {filteredList.map((wi) => (
