@@ -1,5 +1,4 @@
 import React from 'react'
-import './App.css'
 import LoginPage from './features/auth/LoginPage'
 import { Route, Routes, Navigate } from 'react-router-dom'
 import { pdfjs } from 'react-pdf';
@@ -23,6 +22,7 @@ function App() {
 
   return (
     <Routes>
+      <Route path="/" element={<Navigate to="/login" replace />} />
       <Route path="/login" element={<LoginPage />} />
 
       <Route path="/admin" element={<AdminPage />} >
@@ -46,6 +46,8 @@ function App() {
       </Route>
 
       <Route path="/view/:wiId" element={<DocumentViewer />} />
+
+      <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   )
 }
