@@ -1,22 +1,24 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import api from '../../api/mockApi';
 
+// ---- ASYNC THUNKS ----
 export const fetchWIs = createAsyncThunk(
   "wis/fetchWIs", 
-  async(_, {rejectWithValue}) => {
-  try {
-    const response = await api.get("/wis");
-    return response.data;
-  } catch(err) {
-    return rejectWithValue(err.message);
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.get("/wis");
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
   }
-});
+);
 
 export const saveDraftAsync = createAsyncThunk(
   "wis/saveDraftAsync",
-  async (payload, {rejectWithValue}) => {
+  async (payload, { rejectWithValue }) => {
     try {
-      const response = await api.post("/wis", {...payload, status: "Draft"});
+      const response = await api.post("/wis", { ...payload, status: "Draft" });
       return response.data;
     } catch (err) {
       return rejectWithValue(err.message);
@@ -28,7 +30,7 @@ export const publishWIAsync = createAsyncThunk(
   "wis/publishWIAsync",
   async (payload, { rejectWithValue }) => {
     try {
-      const response = await api.post("/wis", {...payload, status: "Published"});
+      const response = await api.post("/wis", { ...payload, status: "Published" });
       return response.data;
     } catch (err) {
       return rejectWithValue(err.message);
@@ -48,7 +50,8 @@ export const deleteWIAsync = createAsyncThunk(
   }
 );
 
-export const wisSlice = createSlice({
+// ---- SLICE ----
+const wisSlice = createSlice({
   name: "workInstructions",
   initialState: {
     list: [],
@@ -56,67 +59,73 @@ export const wisSlice = createSlice({
     error: null
   },
   reducers: {},
-  extraReducers: {
-    [fetchWIs.pending]: (state) => {
-      state.loading = true;
-    },
-    [fetchWIs.fulfilled]: (state, action) => {
-      state.loading = false;
-      state.list = action.payload;
-    },
-    [fetchWIs.rejected]: (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
-    },
+  extraReducers: (builder) => {
+    builder
+      // fetchWIs
+      .addCase(fetchWIs.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchWIs.fulfilled, (state, action) => {
+        state.loading = false;
+        state.list = action.payload;
+      })
+      .addCase(fetchWIs.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
 
-    [saveDraftAsync.pending]: (state) => {
-      state.loading = true
-      state.error = false
-    },
-    [saveDraftAsync.fulfilled]: (state, action) => {
-      const index = state.list.findIndex((wi) => wi.id === action.payload.id);
-      if(index !== -1) {
-        state.list[index] = action.payload;
-      } else {
-        state.list.push(action.payload);
-      }
-      state.loading = false
-      state.error = false
-    },
-    [saveDraftAsync.rejected]: (state, action) => {
-      state.loading = false
-      state.error = action.payload
-    },
+      // saveDraftAsync
+      .addCase(saveDraftAsync.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(saveDraftAsync.fulfilled, (state, action) => {
+        const index = state.list.findIndex(wi => wi.id === action.payload.id);
+        if (index !== -1) {
+          state.list[index] = action.payload;
+        } else {
+          state.list.push(action.payload);
+        }
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(saveDraftAsync.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
 
-    [publishWIAsync.pending]: (state) => {
-      state.loading = true
-      state.error = false
-    },
-    [publishWIAsync.fulfilled]: (state, action) => {
-      const index = state.list.findIndex((wi) => wi.id === action.payload.id);
-      if(index !== -1) {
-        state.list[index] = action.payload;
-      } else {
-        state.list.push(action.payload);
-      }
-      state.loading = false
-      state.error = false
-    },
-    [publishWIAsync.rejected]: (state, action) => {
-      state.loading = false
-      state.error = action.payload
-    },
+      // publishWIAsync
+      .addCase(publishWIAsync.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(publishWIAsync.fulfilled, (state, action) => {
+        const index = state.list.findIndex(wi => wi.id === action.payload.id);
+        if (index !== -1) {
+          state.list[index] = action.payload;
+        } else {
+          state.list.push(action.payload);
+        }
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(publishWIAsync.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
 
-    [deleteWIAsync.fulfilled]: (state, action) => {
-      state.list = state.list.filter((wi) => wi.id !== action.payload);
-    }
+      // deleteWIAsync
+      .addCase(deleteWIAsync.fulfilled, (state, action) => {
+        state.list = state.list.filter(wi => wi.id !== action.payload);
+      });
   }
 });
 
+// ---- SELECTORS ----
 export const selectWorkInstructions = (state) => state.workInstructions.list;
 export const selectLoading = (state) => state.workInstructions.loading;
 export const selectError = (state) => state.workInstructions.error;
-export const selectPublishedWIs = (state) => state.workInstructions.list.filter((wi) => wi.status === "Published");
-export const selectDraftWIs = (state) => state.workInstructions.list.filter((wi) => wi.status === "Draft");
+export const selectPublishedWIs = (state) => state.workInstructions.list.filter(wi => wi.status === "Published");
+export const selectDraftWIs = (state) => state.workInstructions.list.filter(wi => wi.status === "Draft");
 
 export default wisSlice.reducer;
