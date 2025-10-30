@@ -1,23 +1,73 @@
-import { createSlice } from '@reduxjs/toolkit';
+// src/features/users/usersSlice.js
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import api from '../../api/mockApi';
 
-export const usersSlice = createSlice({
-  name: "users",
+// ---- ASYNC THUNKS ----
+export const fetchUsers = createAsyncThunk('users/fetchUsers', async (_, { rejectWithValue }) => {
+  try {
+    const res = await api.get('/users');
+    return res.data;
+  } catch (err) {
+    return rejectWithValue(err.message);
+  }
+});
+
+export const addUserAsync = createAsyncThunk('users/addUserAsync', async (user, { rejectWithValue }) => {
+  try {
+    const res = await api.post('/users', user);
+    return res.data;
+  } catch (err) {
+    return rejectWithValue(err.message);
+  }
+});
+
+export const removeUserAsync = createAsyncThunk('users/removeUserAsync', async (id, { rejectWithValue }) => {
+  try {
+    await api.delete(`/users/${id}`);
+    return id;
+  } catch (err) {
+    return rejectWithValue(err.message);
+  }
+});
+
+// ---- SLICE ----
+const usersSlice = createSlice({
+  name: 'users',
   initialState: {
     list: [],
     loading: false,
-    error: null
+    error: null,
   },
-  reducers: {
-    addUser: (state, action) => {
+  reducers: {},
+  extraReducers: {
+    // fetch users
+    [fetchUsers.pending]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [fetchUsers.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.list = action.payload;
+    },
+    [fetchUsers.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+
+    // add user
+    [addUserAsync.fulfilled]: (state, action) => {
       state.list.push(action.payload);
     },
-    removeUser: (state, action) => {
-      state.list = state.list.filter((user) => user.id !== action.payload.id);
-    },
+
+    // remove user
+    [removeUserAsync.fulfilled]: (state, action) => {
+      state.list = state.list.filter(user => user.id !== action.payload);
+    }
   },
 });
 
 export const selectUsers = (state) => state.users.list;
+export const selectUsersLoading = (state) => state.users.loading;
+export const selectUsersError = (state) => state.users.error;
 
-export const { addUser, removeUser } = usersSlice.actions;
 export default usersSlice.reducer;
