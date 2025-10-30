@@ -1,11 +1,23 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import api from '../../api/mockApi';
+
+export const fetchWIs = createAsyncThunk(
+  "wis/fetchWIs", 
+  async(_, {rejectWithValue}) => {
+  try {
+    const response = await api.get("/wis");
+    return response.data;
+  } catch(err) {
+    return rejectWithValue(err.message);
+  }
+});
 
 export const saveDraftAsync = createAsyncThunk(
-  "workInstructions/saveDraftAsync",
+  "wis/saveDraftAsync",
   async (payload, {rejectWithValue}) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      return {...payload, status: "Draft"};
+      const response = await api.post("/wis", {...payload, status: "Draft"});
+      return response.data;
     } catch (err) {
       return rejectWithValue(err.message);
     }
@@ -13,11 +25,23 @@ export const saveDraftAsync = createAsyncThunk(
 );
 
 export const publishWIAsync = createAsyncThunk(
-  "workInstructions/publishWIAsync",
+  "wis/publishWIAsync",
   async (payload, { rejectWithValue }) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      return {...payload, status: "Published"};
+      const response = await api.post("/wis", {...payload, status: "Published"});
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
+
+export const deleteWIAsync = createAsyncThunk(
+  "wis/deleteWIAsync",
+  async (id, { rejectWithValue }) => {
+    try {
+      await api.delete(`/wis/${id}`);
+      return id;
     } catch (err) {
       return rejectWithValue(err.message);
     }
@@ -31,12 +55,20 @@ export const wisSlice = createSlice({
     loading: false,
     error: null
   },
-  reducers: {
-    deleteWI: (state, action) => {
-        state.list = state.list.filter((wi) => wi.id !== action.payload.id);
-    }
-  },
+  reducers: {},
   extraReducers: {
+    [fetchWIs.pending]: (state) => {
+      state.loading = true;
+    },
+    [fetchWIs.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.list = action.payload;
+    },
+    [fetchWIs.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+
     [saveDraftAsync.pending]: (state) => {
       state.loading = true
       state.error = false
@@ -73,6 +105,10 @@ export const wisSlice = createSlice({
     [publishWIAsync.rejected]: (state, action) => {
       state.loading = false
       state.error = action.payload
+    },
+
+    [deleteWIAsync.fulfilled]: (state, action) => {
+      state.list = state.list.filter((wi) => wi.id !== action.payload);
     }
   }
 });
@@ -83,5 +119,4 @@ export const selectError = (state) => state.workInstructions.error;
 export const selectPublishedWIs = (state) => state.workInstructions.list.filter((wi) => wi.status === "Published");
 export const selectDraftWIs = (state) => state.workInstructions.list.filter((wi) => wi.status === "Draft");
 
-export const { deleteWI } = wisSlice.actions;
 export default wisSlice.reducer;
