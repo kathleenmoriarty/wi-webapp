@@ -11,20 +11,20 @@ const Navbar = () => {
         switch (role) {
             case "Admin":
                 return [
-                    {to: "/dashboard", label: "Dashboard"},
-                    {to: "/wis", label: "Work Instructions"},
-                    {to: "/users", label: "Users"}
+                    {to: "dashboard", label: "Dashboard"},
+                    {to: "wis", label: "Work Instructions"},
+                    {to: "users", label: "Users"}
                 ];
             case "Editor":
                 return [
-                    {to: "/dashboard", label: "Dashboard"},
-                    {to: "/wis", label: "Work Instructions"},
-                    {to: "/upload", label: "Upload New"}
+                    {to: "dashboard", label: "Dashboard"},
+                    {to: "wis", label: "Work Instructions"},
+                    {to: "upload", label: "Upload New"}
                 ];
             default:
                 return [
-                    {to: "/dashboard", label: "Dashboard"},
-                    {to: "/wis", label: "Work Instructions"}
+                    {to: "dashboard", label: "Dashboard"},
+                    {to: "wis", label: "Work Instructions"}
                 ]
         }
     }
