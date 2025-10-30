@@ -10,8 +10,15 @@ const EditorPage = () => {
 
     const user = useSelector(selectCurrentUser);
 
-    if(!user || user.role !== "Edtior") {
-        return <Link to="/login">Go to Login</Link>
+    if(!user || user.role !== "Editor") {
+        return (
+            <div>
+                <h2>Access Denied</h2>
+                <p>You must be an editor to view this page.</p>
+                <Link to="/login">Go to Login</Link>
+            </div>
+            
+        )
     }
 
     return (
