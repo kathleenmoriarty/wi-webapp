@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect }  from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { selectWorkInstructions } from "../features/wis/wisSlice";
@@ -7,10 +7,23 @@ import { Document, Page } from "react-pdf";
 const DocumentViewer = () => {
 
     const { wiId } = useParams();
-    const { list } = useSelector(selectWorkInstructions);
+    const list = useSelector(selectWorkInstructions);
     const navigate = useNavigate();
 
     const document = list.find((wi) => wi.id.toString() === wiId);
+    const file = document?.file;
+    const [fileURL, setFileURL] = useState(null);
+
+    
+    
+    useEffect(() => {
+        if(file) {
+            const url = URL.createObjectURL(file);
+            setFileURL(url);
+            return () => URL.revokeObjectURL(url);
+        }
+        
+    }, [file]);  
 
     if(!document) {
         return (
@@ -22,8 +35,6 @@ const DocumentViewer = () => {
         )
     }
 
-    const file = document.file;
-
     if(!file) {
         return (
             <div className="document-viewer">
@@ -34,10 +45,11 @@ const DocumentViewer = () => {
         )
     }
 
-    const fileURL = URL.createObjectURL.URL(file);
-    const fileType = file.name.split(".").pop().toLowerCase();
+    const fileType = file?.name.split(".").pop().toLowerCase();
 
     const renderPreview = () => {
+        if(!fileURL) return <p>Loading preview...</p>;
+        
         if(fileType === "pdf") {
             return (
                 <Document file={fileURL}>
