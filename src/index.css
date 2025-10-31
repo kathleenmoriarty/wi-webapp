@@ -22,12 +22,10 @@
 body {
     background-color: var(--primary-background);
     color: var(--text-dark);
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    display: block;
   }
   
   /* ===== Global Element Defaults ===== */
