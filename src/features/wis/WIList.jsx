@@ -4,6 +4,7 @@ import { deleteWIAsync, fetchWIs, selectLoading, selectError, selectWorkInstruct
 import {selectSearchTerm, selectSearchType} from "../search/searchSlice"
 import { useNavigate } from "react-router-dom";
 import Searchbar from "../search/Searchbar";
+import '../../styles/WIList.css'
 
 const WIList = () => {
 
@@ -40,12 +41,15 @@ const WIList = () => {
             {filteredList.map((wi) => (
                     <div key={wi.id}>
                         <p>{wi.title} | {wi.product} | {wi.revision} | {wi.status}</p>
-                        <button onClick={() => navigate(`/view/${wi.id}`)}>View</button>
-                        <button onClick={() => {
-                            if(window.confirm("Are you sure you want to delete this WI?")) {
-                                dispatch(deleteWIAsync(wi.id))
-                            }
-                        }}>Remove</button>
+                        <div className="btn-container">
+                            <button onClick={() => navigate(`/view/${wi.id}`)}>View</button>
+                            <button onClick={() => {
+                                if(window.confirm("Are you sure you want to delete this WI?")) {
+                                    dispatch(deleteWIAsync(wi.id))
+                                }
+                            }}>Remove</button>
+                        </div>
+                        
                     </div>
                 )
             )}
