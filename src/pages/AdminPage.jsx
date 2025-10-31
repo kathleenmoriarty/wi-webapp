@@ -4,6 +4,9 @@ import Navbar from "../components/Navbar";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../features/auth/authSlice";
 import { Outlet, Link } from "react-router-dom";
+import '../styles/Header.css'
+import '../styles/Navbar.css'
+import '../styles/AdminPage.css'
 
 const AdminPage = () => {
 
@@ -19,13 +22,16 @@ const AdminPage = () => {
         )
     }
     return (
-        <div className="admin-page">
+        <div className="admin-layout">
             <Header />
-            <Navbar />
-            
-            <Outlet />
-            
+            <div className="admin-content">
+                <Navbar />
+                <div className="dash-board-container">
+                    <Outlet />
+                </div>
+            </div>
         </div>
+        
     );
 };
 
