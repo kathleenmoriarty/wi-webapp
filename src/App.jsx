@@ -13,6 +13,9 @@ import UserTable from './features/users/UserTable'
 import WIList from './features/wis/WIList'
 import WIUploadForm from './features/wis/WIUploadForm'
 
+import '../src/styles/Header.css'
+import '../src/styles/Navbar.css'
+
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 

@@ -4,8 +4,7 @@ import Navbar from "../components/Navbar";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../features/auth/authSlice";
 import { Outlet, Link } from "react-router-dom";
-import '../styles/Header.css'
-import '../styles/Navbar.css'
+
 import '../styles/AdminPage.css'
 
 const AdminPage = () => {
