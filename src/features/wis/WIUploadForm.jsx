@@ -1,6 +1,7 @@
 import React, {useCallback, useState, useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { saveDraftAsync, publishWIAsync, selectLoading, selectError } from "./wisSlice";
+import "../../styles/WIUploadForm.css"
 
 const WIUploadForm = () => {
 
