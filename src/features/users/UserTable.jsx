@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addUserAsync, removeUserAsync, fetchUsers, selectUsers, selectUsersLoading, selectUsersError } from "./usersSlice";
 import { selectSearchTerm, selectSearchType } from "../search/searchSlice";
 import Searchbar from "../search/Searchbar";
+import "../../styles/UserTable.css"
 
 const UserTable = () => {
 
