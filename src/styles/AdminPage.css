@@ -16,7 +16,7 @@
     flex: 0 0 250px; /* fixed width for sidebar */
   }
   
-  .dashboard-container {
+  .content-container {
     flex: 1; /* takes remaining space */
     display: flex;
     flex-direction: column;

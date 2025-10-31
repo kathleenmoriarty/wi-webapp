@@ -26,7 +26,7 @@ const AdminPage = () => {
             <Header />
             <div className="admin-content">
                 <Navbar />
-                <div className="dash-board-container">
+                <div className="content-container">
                     <Outlet />
                 </div>
             </div>
