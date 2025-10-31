@@ -1,0 +1,31 @@
+header {
+    background-color: var(--primary-color); /* Muted Blue (#3B82F6) */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    min-height: fit-content;
+    max-height: 10vh;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+header h1 {
+    font-size: 1.5rem;
+    color: #FFFFFF;
+    font-weight: 600;
+}
+
+header button {
+    background-color: #FFFFFF;
+    color: var(--primary-color);
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-light);
+    border-radius: 1rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+header button:hover {
+    background-color: var(--secondary-color); /* Light blue tint */
+    color: var(--primary-hover);
+}
