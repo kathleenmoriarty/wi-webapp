@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectSearchTerm, selectSearchType, setSearchTerm, setSearchType } from "./searchSlice";
-
+import '../../styles/Searchbar.css'
 
 const Searchbar = () => {
 
