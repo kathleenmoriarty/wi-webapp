@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { selectWorkInstructions } from "../features/wis/wisSlice";
 import { Document, Page } from "react-pdf";
-
+import "../styles/DocumentViewer.css"
 const DocumentViewer = () => {
 
     const { wiId } = useParams();
@@ -47,7 +47,7 @@ const DocumentViewer = () => {
 
     const fileType = file?.name.split(".").pop().toLowerCase();
 
-    const renderPreview = () => {
+    const renderPreview = useMemo(() => {
         if(!fileURL) return <p>Loading preview...</p>;
         
         if(fileType === "pdf") {
@@ -74,7 +74,7 @@ const DocumentViewer = () => {
         }
 
         return <p>Unsupported file type. Please download to view.</p>
-    }
+    }, [fileURL, fileType, document.title, file?.name]);
 
     return (
         <div className="document-viewer">
