@@ -1,0 +1,37 @@
+nav {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--surface-white);
+    width: 250px;
+    border-radius: 2rem;
+    margin: 0.75rem;
+    padding: 1rem;
+    min-height: 30vh;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.5);
+}
+
+nav .nav-link {
+    text-decoration: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    margin-top: 0.75rem;
+    border-radius: 1rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+nav .nav-link:hover {
+    background-color: var(--primary-color);
+}
+
+nav .nav-link:last-of-type {
+    margin-bottom: 1rem;
+}
+
+nav .active {
+    background-color: var(--surface-white);
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
