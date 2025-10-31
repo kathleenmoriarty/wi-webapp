@@ -1,13 +1,15 @@
 import React from 'react'
 import { Route, Routes, Navigate } from 'react-router-dom'
-import { pdfjs } from 'react-pdf';
+import { pdfjs } from 'react-pdf'
+
+import './styles/colors.css'
 
 import LoginPage from './features/auth/LoginPage'
 import AdminPage from './pages/AdminPage'
 import EditorPage from './pages/EditorPage'
 import ViewerPage from './pages/ViewerPage'
 
-import Dashboard from './components/Dashboard';
+import Dashboard from './components/Dashboard'
 import DocumentViewer from './components/DocumentViewer'
 import UserTable from './features/users/UserTable'
 import WIList from './features/wis/WIList'
