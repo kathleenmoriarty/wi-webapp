@@ -13,8 +13,14 @@
   }
   
   nav {
-    flex: 0 0 250px; /* fixed width for sidebar */
-  }
+    flex: 1 1 20%; /* grows/shrinks, starting at 20% of the row */
+    max-width: 300px; /* optional cap */
+    min-width: 180px; /* optional floor */
+    background-color: var(--surface-white);
+    border-radius: 2rem;
+    padding: 1rem;
+}
+
   
   .content-container {
     flex: 1; /* takes remaining space */

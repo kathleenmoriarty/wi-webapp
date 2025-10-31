@@ -2,7 +2,7 @@ nav {
     display: flex;
     flex-direction: column;
     background-color: var(--surface-white);
-    width: 250px;
+    width: 30vw;
     border-radius: 2rem;
     margin: 0.75rem;
     padding: 1rem;
@@ -24,6 +24,7 @@ nav .nav-link {
 
 nav .nav-link:hover {
     background-color: var(--primary-color);
+    color: #fff;
 }
 
 nav .nav-link:last-of-type {
