@@ -2,8 +2,6 @@ import React from 'react'
 import { Route, Routes, Navigate } from 'react-router-dom'
 import { pdfjs } from 'react-pdf'
 
-import './styles/colors.css'
-
 import LoginPage from './features/auth/LoginPage'
 import AdminPage from './pages/AdminPage'
 import EditorPage from './pages/EditorPage'
