@@ -121,9 +121,9 @@ const WIUploadForm = () => {
                     <button type="submit" disabled={loading}>Submit</button>
                 </div>
 
-                {loading && <p>Loading...</p>}
-                {success && !loading && <p>Success!</p>}
-                {error && <p>Error saving form: {error}</p>}
+                {loading && <p className="load">Loading...</p>}
+                {success && !loading && <p className="success">Success!</p>}
+                {error && <p className="error">Error saving form: {error}</p>}
 
             </form>
         </div>

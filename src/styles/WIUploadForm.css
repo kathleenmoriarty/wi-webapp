@@ -53,6 +53,19 @@ button:hover {
     background-color: var(--primary-hover);
 }
 
-p {
+.upload-form p {
     font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+.upload-form .load {
+    color: var(--primary-color);
+}
+
+.upload-form .success {
+    color: darkgreen;
+}
+
+.upload-form .error {
+    color: darkred;
 }
