@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://wi-webapp.netlify.app
