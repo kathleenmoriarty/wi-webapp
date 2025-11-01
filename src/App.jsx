@@ -17,6 +17,8 @@ const UserTable = React.lazy(() => import('./features/users/UserTable'));
 const WIList = React.lazy(() => import('./features/wis/WIList'));
 const WIUploadForm = React.lazy(() => import('./features/wis/WIUploadForm'));
 
+import DemoPage from "./components/DemoPage";
+
 // Lazy-load PDF worker (already done)
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
@@ -26,6 +28,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<LoginPage />} />
+
+        <Route path="/demo" element={<DemoPage />} />
 
         <Route path="/admin" element={<AdminPage />} >
           <Route index element={<Dashboard role="Admin" />} />
