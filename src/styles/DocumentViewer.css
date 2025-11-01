@@ -9,16 +9,16 @@
 
 .document-viewer header {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-start;
+    flex-direction: column;
     gap: 1rem;
     border-bottom: 1px solid var(--border-light);
     padding-bottom: 1rem;
+    color: var(--base-white);
 }
 
 .document-viewer header h2 {
     margin: 0.5rem 0;
+    font-size: 1.5rem;
 }
 
 .preview-area {
@@ -48,4 +48,39 @@
 
 .document-viewer button:hover {
     background-color: var(--primary-hover);
+    color: var(--base-white);
+}
+
+/* Style the <p> elements inside the document viewer header */
+
+.document-viewer .title-info, 
+.document-viewer .wis-info {
+    display: flex;
+    
+    align-items: center;
+    width: 100%;
+}
+
+.document-viewer .title-info {
+    justify-content: space-between;
+}
+
+.document-viewer .wis-info {
+    justify-content: center;
+}
+
+.document-viewer .title-info a {
+    color: var(--base-white);
+}
+
+.document-viewer .wis-info p {
+    margin: 0.25rem 2rem;
+    font-size: 0.9rem; /* use your standard text color */
+    line-height: 1.4;
+}
+
+/* Style the <span> inside each <p> (the label part) */
+.document-viewer .wis-info p span {
+    font-weight: 600; /* lighter color for labels */
+    margin-right: 0.3rem;
 }
