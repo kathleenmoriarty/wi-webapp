@@ -17,7 +17,7 @@ const UserTable = React.lazy(() => import('./features/users/UserTable'));
 const WIList = React.lazy(() => import('./features/wis/WIList'));
 const WIUploadForm = React.lazy(() => import('./features/wis/WIUploadForm'));
 
-import DemoPage from "./components/DemoPage";
+import DemoPage from "./pages/DemoPage";
 
 // Lazy-load PDF worker (already done)
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
