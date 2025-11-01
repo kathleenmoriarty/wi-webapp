@@ -2,8 +2,9 @@ import React, { useState, useEffect, useMemo }  from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { selectWorkInstructions } from "../features/wis/wisSlice";
-import { Document, Page } from "react-pdf";
 import "../styles/DocumentViewer.css"
+
+const DocumentViewerPDF = React.lazy(() => import("./DocumentViewerPDF"));
 
 const DocumentViewer = () => {
 
@@ -52,9 +53,7 @@ const DocumentViewer = () => {
         
         if(fileType === "pdf") {
             return (
-                <Document file={fileURL}>
-                    <Page pageNumber={1} width={800}/>
-                </Document>
+                <DocumentViewerPDF fileURL={fileURL} />
             )
         }
 
@@ -94,9 +93,10 @@ const DocumentViewer = () => {
                 </div>
             </header>
             
-
             <div className="preview-area">
-                {renderPreview}
+                <Suspense fallback={<p>Loading preview...</p>}>
+                    {renderPreview}
+                </Suspense>
             </div>
         </div>
     );
