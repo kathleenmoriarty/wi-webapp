@@ -33,3 +33,19 @@
     max-width: 100%;
     height: auto;
 }
+
+.document-viewer button {
+    margin-left: 0.5rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.75rem;
+    border: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.document-viewer button:hover {
+    background-color: var(--primary-hover);
+}
