@@ -1,9 +1,10 @@
-import React, { useState, useEffect }  from "react";
+import React, { useState, useEffect, useMemo }  from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { selectWorkInstructions } from "../features/wis/wisSlice";
 import { Document, Page } from "react-pdf";
 import "../styles/DocumentViewer.css"
+
 const DocumentViewer = () => {
 
     const { wiId } = useParams();
@@ -13,7 +14,6 @@ const DocumentViewer = () => {
     const document = list.find((wi) => wi.id.toString() === wiId);
     const file = document?.file;
     const [fileURL, setFileURL] = useState(null);
-
     
     
     useEffect(() => {
@@ -96,7 +96,7 @@ const DocumentViewer = () => {
             
 
             <div className="preview-area">
-                {renderPreview()}
+                {renderPreview}
             </div>
         </div>
     );
