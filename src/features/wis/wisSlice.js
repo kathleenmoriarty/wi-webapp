@@ -18,7 +18,20 @@ export const saveDraftAsync = createAsyncThunk(
   "wis/saveDraftAsync",
   async (payload, { rejectWithValue }) => {
     try {
-      const response = await api.post("/wis", { ...payload, status: "Draft" });
+      const formData = new FormData();
+      formData.append("title", payload.title);
+      formData.append("product", payload.product);
+      formData.append("revision", payload.revision);
+      formData.append("status", "Draft");
+
+      if (payload.file) {
+        formData.append("file", payload.file); // must be a File or Blob
+      }
+
+      const response = await api.post("/wis", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
       return response.data;
     } catch (err) {
       return rejectWithValue(err.message);
@@ -26,17 +39,32 @@ export const saveDraftAsync = createAsyncThunk(
   }
 );
 
+
 export const publishWIAsync = createAsyncThunk(
   "wis/publishWIAsync",
   async (payload, { rejectWithValue }) => {
     try {
-      const response = await api.post("/wis", { ...payload, status: "Published" });
+      const formData = new FormData();
+      formData.append("title", payload.title);
+      formData.append("product", payload.product);
+      formData.append("revision", payload.revision);
+      formData.append("status", "Published");
+
+      if (payload.file) {
+        formData.append("file", payload.file);
+      }
+
+      const response = await api.post("/wis", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
       return response.data;
     } catch (err) {
       return rejectWithValue(err.message);
     }
   }
 );
+
 
 export const deleteWIAsync = createAsyncThunk(
   "wis/deleteWIAsync",

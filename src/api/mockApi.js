@@ -49,11 +49,32 @@ mock.onDelete(/\/users\/\d+/).reply((config) => {
 mock.onGet('/wis').reply(200, workInstructions);
 
 mock.onPost('/wis').reply((config) => {
-  const newWI = JSON.parse(config.data);
+  let newWI = {};
+
+  // Handle both JSON and FormData uploads
+  try {
+    newWI = JSON.parse(config.data);
+  } catch {
+    if (config.data instanceof FormData) {
+      newWI = Object.fromEntries(config.data.entries());
+
+      // Handle file upload (create preview URL)
+      const file = newWI.file;
+      if (file instanceof File) {
+        newWI.file = {
+          name: file.name,
+          url: URL.createObjectURL(file),
+        };
+      }
+    }
+  }
+
   newWI.id = Date.now();
   workInstructions.push(newWI);
+
   return [201, newWI];
 });
+
 
 mock.onDelete(/\/wis\/\d+/).reply((config) => {
   const id = parseInt(config.url.split('/').pop());
