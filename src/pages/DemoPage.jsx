@@ -1,10 +1,10 @@
 // src/components/DemoPage.jsx
 import React from "react";
-import Dashboard from "./Dashboard";
+import Dashboard from "../components/Dashboard";
 import UserTable from "../features/users/UserTable";
 import WIList from "../features/wis/WIList";
-import Navbar from "./Navbar";
-import Header from "./Header";
+import Navbar from "../components/Navbar";
+import Header from "../components/Header";
 
 const DemoPage = () => {
   return (
