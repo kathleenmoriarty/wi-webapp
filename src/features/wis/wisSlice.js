@@ -31,7 +31,7 @@ export const saveDraftAsync = createAsyncThunk(
       const response = await api.post("/wis", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-
+      console.log("Saved WI response:", response.data);
       return response.data;
     } catch (err) {
       return rejectWithValue(err.message);

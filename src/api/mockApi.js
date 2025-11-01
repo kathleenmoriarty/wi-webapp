@@ -51,29 +51,41 @@ mock.onGet('/wis').reply(200, workInstructions);
 mock.onPost('/wis').reply((config) => {
   let newWI = {};
 
-  // Handle both JSON and FormData uploads
-  try {
-    newWI = JSON.parse(config.data);
-  } catch {
-    if (config.data instanceof FormData) {
-      newWI = Object.fromEntries(config.data.entries());
+  // Handle FormData parsing (as it's often sent with file uploads)
+  if (config.data instanceof FormData) {
+    const form = config.data;
+    newWI.title = form.get("title");
+    newWI.product = form.get("product");
+    newWI.revision = form.get("revision");
+    newWI.status = form.get("status");
 
-      // Handle file upload (create preview URL)
-      const file = newWI.file;
-      if (file instanceof File) {
-        newWI.file = {
-          name: file.name,
-          url: URL.createObjectURL(file),
-        };
-      }
+    // Handle the file if present
+    const file = form.get("file");
+    if (file && file instanceof File) {
+      newWI.file = {
+        name: file.name,
+        url: URL.createObjectURL(file), // Create object URL for file preview
+      };
+    }
+  } else {
+    // Handle normal JSON request (if you're passing JSON directly)
+    try {
+      newWI = JSON.parse(config.data);
+    } catch (e) {
+      // If it's neither JSON nor FormData, return an error
+      return [400, { message: "Invalid request format" }];
     }
   }
 
+  // Assign a unique ID to the new Work Instruction
   newWI.id = Date.now();
+
+  // Push the new Work Instruction to the mock data
   workInstructions.push(newWI);
 
-  return [201, newWI];
+  return [201, newWI];  // Return the created Work Instruction
 });
+
 
 
 mock.onDelete(/\/wis\/\d+/).reply((config) => {

@@ -33,7 +33,7 @@ const WIUploadForm = () => {
         
             const payload = {
                 ...formData,
-                id: type === "draft" ? Date.now() : crypto.randomUUID()
+                
             };
 
             try {
